@@ -9,6 +9,7 @@ The app is built with *Symfony 6.2*.
 - doctrine/orm
 - fakerphp/faker
 - symfony/serializer
+- symfony/test-pack
 
 ## Installation
 
@@ -52,3 +53,5 @@ $ docker cp $(docker compose ps -q caddy):/data/caddy/pki/authorities/local/root
 # Windows
 $ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root.crt && certutil -addstore -f "ROOT" %TEMP%/root.crt
 ```
+
+## Testing
