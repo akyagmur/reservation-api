@@ -7,6 +7,8 @@ The app is built with *Symfony 6.2*.
 - doctrine/doctrine-bundle
 - doctrine/doctrine-migrations-bundle
 - doctrine/orm
+- fakerphp/faker
+- symfony/serializer
 
 ## Installation
 
@@ -26,6 +28,18 @@ composer install
 
 ```bash
 docker-compose up -d
+```
+
+4. Run migrations to create database schema
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+5. Load fixtures
+
+```bash
+php bin/console doctrine:fixtures:load
 ```
 
 With a standard installation, the authority used to sign certificates generated in the Caddy container is not trusted by your local machine. You must add the authority to the trust store of the host :
