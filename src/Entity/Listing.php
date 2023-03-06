@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
+
 
 #[ORM\Entity(repositoryClass: ListingRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -47,6 +50,9 @@ class Listing
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $available_to_date = null;
+
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private ?string $reference = null;
 
     public function __construct()
     {
@@ -206,5 +212,23 @@ class Listing
         $this->available_to_date = $available_to_date;
 
         return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+    
+    #[ORM\PrePersist]
+    public function setReferenceValue(): void
+    {
+        $this->reference = Uuid::v4();
     }
 }

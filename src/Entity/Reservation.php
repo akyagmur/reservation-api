@@ -6,6 +6,8 @@ use App\Repository\ReservationRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -38,6 +40,9 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Guest $guest = null;
+
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private ?string $reference = null;
 
     public function getId(): ?int
     {
@@ -138,5 +143,22 @@ class Reservation
     public function setUpdatedAtValue(): void
     {
         $this->updated_at = new DateTimeImmutable();
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function setReferenceValue(): void
+    {
+        $this->reference = Uuid::v4();
     }
 }
