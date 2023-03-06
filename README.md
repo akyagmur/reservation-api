@@ -55,4 +55,14 @@ $ docker cp $(docker compose ps -q caddy):/data/caddy/pki/authorities/local/root
 $ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root.crt && certutil -addstore -f "ROOT" %TEMP%/root.crt
 ```
 
+6. Available Endpoints Table
+
+| Method | Endpoint | Description |
+| ------ | ------ | ------ |
+| GET | /api/v1/listings | Get all listings |
+| GET | /api/v1/listing/{reference} | Get a listing by id |
+| POST | /api/v1/reservation/create | Create a reservation |
+| GET | /api/v1/reservation/{reference} | Get a reservation by id |
+| GET | /api/v1/reservations/{guest} | Get all reservations by guest |
+
 ## Testing
