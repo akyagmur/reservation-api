@@ -31,6 +31,8 @@ class AppFixtures extends Fixture
             $listing->setCapacity($faker->numberBetween($rooms, $rooms * 2));
             $listing->setHasWifi($faker->boolean());
             $listing->setHasPrivateBathroom($faker->boolean());
+            $listing->setAvailableFromDate($faker->dateTimeBetween('now', '+1 months'));
+            $listing->setAvailableToDate($faker->dateTimeBetween('+1 months', '+6 months'));
             $listings[] = $listing;
             $manager->persist($listing);
         }

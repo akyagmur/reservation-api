@@ -6,6 +6,7 @@ use App\Repository\ListingRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ListingRepository::class)]
@@ -40,6 +41,12 @@ class Listing
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $available_from_date = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $available_to_date = null;
 
     public function __construct()
     {
@@ -175,5 +182,29 @@ class Listing
     public function setUpdatedAtValue(): void
     {
         $this->updated_at = new DateTimeImmutable();
+    }
+
+    public function getAvailableFromDate(): ?\DateTimeInterface
+    {
+        return $this->available_from_date;
+    }
+
+    public function setAvailableFromDate(\DateTimeInterface $available_from_date): self
+    {
+        $this->available_from_date = $available_from_date;
+
+        return $this;
+    }
+
+    public function getAvailableToDate(): ?\DateTimeInterface
+    {
+        return $this->available_to_date;
+    }
+
+    public function setAvailableToDate(\DateTimeInterface $available_to_date): self
+    {
+        $this->available_to_date = $available_to_date;
+
+        return $this;
     }
 }
