@@ -7,10 +7,11 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: GuestRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Guest
+class Guest implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -146,5 +147,15 @@ class Guest
     public function setUpdatedAtValue(): void
     {
         $this->updated_at = new DateTimeImmutable();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'surname' => $this->surname,
+            'email' => $this->email
+        ];
     }
 }

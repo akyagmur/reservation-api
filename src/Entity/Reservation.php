@@ -6,6 +6,7 @@ use App\Repository\ReservationRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Index(columns: ['reference'])]
 #[ORM\Index(columns: ['start_date', 'end_date'])]
-class Reservation
+class Reservation implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -163,5 +164,18 @@ class Reservation
     public function setReferenceValue(): void
     {
         $this->reference = Uuid::v4();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'reference' => $this->reference,
+            'start_date' => $this->start_date->format('Y-m-d'),
+            'end_date' => $this->end_date->format('Y-m-d'),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at,
+            'listing' => $this->listing,
+            'guest' => $this->guest
+        ];
     }
 }

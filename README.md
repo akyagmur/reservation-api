@@ -10,6 +10,7 @@ The app is built with *Symfony 6.2*.
 - fakerphp/faker
 - symfony/serializer
 - symfony/test-pack
+- symfony/validator
 
 ## Installation
 

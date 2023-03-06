@@ -21,13 +21,15 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    public function save(Reservation $entity, bool $flush = false): void
+    public function save(Reservation $entity, bool $flush = false): Reservation
     {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+        
+        return $entity;
     }
 
     public function remove(Reservation $entity, bool $flush = false): void
@@ -37,6 +39,25 @@ class ReservationRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByReference(string $reference): ?Reservation
+    {
+        return $this->findOneBy(['reference' => $reference]);
+    }
+
+    public function findConflictReservations($listingId, $startDate, $endDate): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->andWhere('r.listing = :listingId')
+            ->setParameter('listingId', $listingId)
+            ->andWhere('r.start_date <= :endDate')
+            ->setParameter('endDate', $endDate)
+            ->andWhere('r.end_date >= :startDate')
+            ->setParameter('startDate', $startDate);
+
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

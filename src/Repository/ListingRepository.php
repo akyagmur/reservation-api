@@ -39,6 +39,66 @@ class ListingRepository extends ServiceEntityRepository
         }
     }
 
+    // search listings by date range by available_from_date and available_to_date
+    // other filters are rooms capacity has_wifi has_private_bathroom 
+    // listing_type in ["apartment", "house", "villa", "condo", "cabin", "hostel", "hotel", "resort", "campsite", "boat"]
+
+    /**
+     * @return Listing[] Returns an array of Listing objects
+     * fields on db : available_from_date available_to_date rooms capacity has_wifi has_private_bathroom listing_type
+     */
+    public function searchInListings($availableFromDate, $availableToDate, $rooms, $capacity, $hasWifi, $hasPrivateBathroom, $listingType): array
+    {
+        $qb = $this->createQueryBuilder('l');
+
+        if ($availableFromDate) {
+            $qb->andWhere('l.available_from_date >= :availableFromDate')
+                ->setParameter('availableFromDate', $availableFromDate);
+        }
+
+        if ($availableToDate) {
+            $qb->andWhere('l.available_to_date <= :availableToDate')
+                ->setParameter('availableToDate', $availableToDate);
+        }
+
+        if ($rooms) {
+            $qb->andWhere('l.rooms >= :rooms')
+                ->setParameter('rooms', $rooms);
+        }
+
+        if ($capacity) {
+            $qb->andWhere('l.capacity >= :capacity')
+                ->setParameter('capacity', $capacity);
+        }
+
+        if ($hasWifi) {
+            $qb->andWhere('l.has_wifi = :hasWifi')
+                ->setParameter('hasWifi', $hasWifi);
+        }
+
+        if ($hasPrivateBathroom) {
+            $qb->andWhere('l.has_private_bathroom = :hasPrivateBathroom')
+                ->setParameter('hasPrivateBathroom', $hasPrivateBathroom);
+        }
+
+        if ($listingType) {
+            $qb->andWhere('l.listing_type = :listingType')
+                ->setParameter('listingType', $listingType);
+        }
+        
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findByReference($reference): ?Listing
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.reference = :reference')
+            ->setParameter('reference', $reference)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Listing[] Returns an array of Listing objects
 //     */

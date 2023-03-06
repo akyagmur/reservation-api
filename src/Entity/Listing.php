@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
@@ -16,7 +17,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Index(columns: ['reference'])]
 #[ORM\Index(columns: ['available_from_date', 'available_to_date'])]
-class Listing
+class Listing implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -232,5 +233,19 @@ class Listing
     public function setReferenceValue(): void
     {
         $this->reference = Uuid::v4();
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'reference' => $this->reference,
+            'listing_type' => $this->listing_type,
+            'rooms' => $this->rooms,
+            'capacity' => $this->capacity,
+            'has_wifi' => $this->has_wifi,
+            'has_private_bathroom' => $this->has_private_bathroom,
+            'available_from_date' => $this->available_from_date->format('Y-m-d'),
+            'available_to_date' => $this->available_to_date->format('Y-m-d'),
+        ];
     }
 }

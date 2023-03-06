@@ -3,29 +3,44 @@
 namespace App\Controller;
 
 use App\Http\ApiResponse;
-use Exception;
+use App\Repository\ListingRepository;
+use App\Request\ListingSearchRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ListingController extends AbstractController
 {
-    #[Route('/listing', name: 'app_listing')]
-    public function index(): JsonResponse
+    private ListingRepository $listingRepository;
+
+    public function __construct(ListingRepository $listingRepository)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ListingController.php',
-        ]);
+        $this->listingRepository = $listingRepository;
     }
 
-    #[Route('/listing/detail/{id}', name: 'app_listing_detail', requirements: ['id' => '\d+'])]
-    public function detail($id): JsonResponse
+    #[Route('/listing/search', name: 'app_listing_search')]
+    public function search(ListingSearchRequest $request): JsonResponse
     {
-        if ($id === "1") {
-            throw new Exception('Listing not found');
-        }
-        return new ApiResponse('Listing detail', ['id' => $id], [], 200);
+        $request->validate();
+
+        $listings = $this->listingRepository->searchListings(
+            availableFromDate: $request->availableFromDate,
+            availableToDate: $request->availableToDate,
+            rooms: $request->rooms,
+            capacity: $request->capacity,
+            hasWifi: $request->hasWifi,
+            hasPrivateBathroom: $request->hasPrivateBathroom,
+            listingType: $request->listingType
+        );
+
+        return new ApiResponse('Listing search', $listings, [], 200);
+    }
+
+    #[Route('/listing/detail/{reference}', name: 'app_listing_detail', requirements: ['reference' => '[a-z0-9-]+'])]
+    public function detail($reference): JsonResponse
+    {
+        $listing = $this->listingRepository->findByReference($reference);
+
+        return new ApiResponse('Listing detail', $listing, [], 200);
     }
 }
