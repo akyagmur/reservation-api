@@ -60,6 +60,16 @@ class ReservationRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findReservationsByGuestId($guestId): array
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->andWhere('r.guest = :guestId')
+            ->setParameter('guestId', $guestId);
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Reservation[] Returns an array of Reservation objects
 //     */

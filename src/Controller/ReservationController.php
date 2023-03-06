@@ -52,4 +52,12 @@ class ReservationController extends AbstractController
 
         return new ApiResponse('Reservation found', $reservation, [], 200);
     }
+
+    #[Route('/reservations/guest/{guest}', name: 'app_get_reservations_by_guest')]
+    public function getReservationsByGuest(Guest $guest): JsonResponse
+    {
+        $reservations = $this->reservationRepository->findByGuest($guest);
+
+        return new ApiResponse('Reservations found', $reservations, [], 200);
+    }
 }
