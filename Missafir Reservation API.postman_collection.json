@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "00e5a67b-986f-42d7-b038-e9940983c841",
+		"name": "Missafir Reservation API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1865493"
+	},
+	"item": [
+		{
+			"name": "Get Listing Detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/listing/detail/45255d63-164d-45cc-a8ec-4578bdff2acd",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"listing",
+						"detail",
+						"45255d63-164d-45cc-a8ec-4578bdff2acd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Listings",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"availableFromDate\": \"2021-01-01\",\n    \"availableToDate\": \"2025-02-01\",\n    \"listingType\": \"boat\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/listing/search",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"listing",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Reservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"guestId\": 222,\n    \"listingReference\": \"45255d63-164d-45cc-a8ec-4578bdff2acd\",\n    \"startDate\": \"2023-04-05\",\n    \"endDate\": \"2023-04-10\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/reservation/create",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"reservation",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reservation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/reservation/449a069f-2413-4e58-879f-3167b6101d71",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"reservation",
+						"449a069f-2413-4e58-879f-3167b6101d71"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Reservation By Guest Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/reservations/guest/222",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"reservations",
+						"guest",
+						"222"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "app_url",
+			"value": "http://localhost/api/v1",
+			"type": "string"
+		}
+	]
+}
