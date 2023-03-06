@@ -14,6 +14,8 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ListingRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(columns: ['reference'])]
+#[ORM\Index(columns: ['available_from_date', 'available_to_date'])]
 class Listing
 {
     #[ORM\Id]

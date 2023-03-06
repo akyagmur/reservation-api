@@ -11,6 +11,8 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(columns: ['reference'])]
+#[ORM\Index(columns: ['start_date', 'end_date'])]
 class Reservation
 {
     #[ORM\Id]
@@ -157,6 +159,7 @@ class Reservation
         return $this;
     }
 
+    #[ORM\PrePersist]
     public function setReferenceValue(): void
     {
         $this->reference = Uuid::v4();
