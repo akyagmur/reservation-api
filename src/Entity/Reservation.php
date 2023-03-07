@@ -47,6 +47,9 @@ class Reservation implements JsonSerializable
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     private ?string $reference = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_cancelled = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -166,10 +169,23 @@ class Reservation implements JsonSerializable
         $this->reference = Uuid::v4();
     }
 
+    public function isIsCancelled(): ?bool
+    {
+        return $this->is_cancelled;
+    }
+
+    public function setIsCancelled(?bool $is_cancelled): self
+    {
+        $this->is_cancelled = $is_cancelled;
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return [
             'reference' => $this->reference,
+            'is_cancelled' => $this->is_cancelled,
             'start_date' => $this->start_date->format('Y-m-d'),
             'end_date' => $this->end_date->format('Y-m-d'),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

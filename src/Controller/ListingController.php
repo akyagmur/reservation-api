@@ -18,12 +18,12 @@ class ListingController extends AbstractController
         $this->listingRepository = $listingRepository;
     }
 
-    #[Route('/listing/search', name: 'app_listing_search')]
+    #[Route('/listing/search', name: 'app_listing_search', methods: ['POST'])]
     public function search(ListingSearchRequest $request): JsonResponse
     {
         $request->validate();
 
-        $listings = $this->listingRepository->searchListings(
+        $listings = $this->listingRepository->searchInListings(
             availableFromDate: $request->availableFromDate,
             availableToDate: $request->availableToDate,
             rooms: $request->rooms,
@@ -36,7 +36,7 @@ class ListingController extends AbstractController
         return new ApiResponse('Listing search', $listings, [], 200);
     }
 
-    #[Route('/listing/detail/{reference}', name: 'app_listing_detail', requirements: ['reference' => '[a-z0-9-]+'])]
+    #[Route('/listing/detail/{reference}', name: 'app_listing_detail', requirements: ['reference' => '[a-z0-9-]+'], methods: ['GET'])]
     public function detail($reference): JsonResponse
     {
         $listing = $this->listingRepository->findByReference($reference);

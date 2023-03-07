@@ -27,15 +27,12 @@
 		},
 		{
 			"name": "Get Listings",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"availableFromDate\": \"2021-01-01\",\n    \"availableToDate\": \"2025-02-01\",\n    \"listingType\": \"boat\"\n}",
+					"raw": "{\n    \"availableFromDate\": \"2021-01-01\",\n    \"availableToDate\": \"2025-02-01\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -62,7 +59,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"guestId\": 222,\n    \"listingReference\": \"45255d63-164d-45cc-a8ec-4578bdff2acd\",\n    \"startDate\": \"2023-04-05\",\n    \"endDate\": \"2023-04-10\"\n}",
+					"raw": "{\n    \"guestId\": 1,\n    \"listingReference\": \"d71baa90-b63b-432f-8636-3fc93bb94b97\",\n    \"startDate\": \"2023-04-05\",\n    \"endDate\": \"2023-04-10\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -88,13 +85,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{app_url}}/reservation/449a069f-2413-4e58-879f-3167b6101d71",
+					"raw": "{{app_url}}/reservation/75202e89-c4a3-44b8-880b-d876d6799629",
 					"host": [
 						"{{app_url}}"
 					],
 					"path": [
 						"reservation",
-						"449a069f-2413-4e58-879f-3167b6101d71"
+						"75202e89-c4a3-44b8-880b-d876d6799629"
 					]
 				}
 			},
@@ -106,14 +103,51 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{app_url}}/reservations/guest/222",
+					"raw": "{{app_url}}/reservations/guest/1",
 					"host": [
 						"{{app_url}}"
 					],
 					"path": [
 						"reservations",
 						"guest",
-						"222"
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Reservation",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/reservation/75202e89-c4a3-44b8-880b-d876d6799629/cancel",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"reservation",
+						"75202e89-c4a3-44b8-880b-d876d6799629",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Guest List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/guests/list",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"guests",
+						"list"
 					]
 				}
 			},

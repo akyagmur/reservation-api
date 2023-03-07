@@ -2,6 +2,7 @@
 
 namespace App\Request;
 
+use App\Repository\GuestRepository;
 use App\Repository\ListingRepository;
 use App\Repository\ReservationRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,15 +13,18 @@ class CreateReservationRequest extends BaseRequest
 {
         private ListingRepository $listingRepository;
         private ReservationRepository $reservationRepository;
+        private GuestRepository $guestRepository;
 
         public function __construct(
                 ListingRepository $listingRepository,
                 ReservationRepository $reservationRepository,
+                GuestRepository $guestRepository,
                 protected ValidatorInterface $validator
 
         ) {
                 $this->listingRepository = $listingRepository;
                 $this->reservationRepository = $reservationRepository;
+                $this->guestRepository = $guestRepository;
 
                 parent::__construct($validator);
         }
@@ -76,6 +80,19 @@ class CreateReservationRequest extends BaseRequest
                 if ($startDate < $listing->getAvailableFromDate() || $endDate > $listing->getAvailableToDate()) {
                         $context->buildViolation('Reservation is outside of listing availability')
                                 ->atPath('startDate')
+                                ->addViolation();
+                }
+        }
+
+        // validate if guest exists
+        #[Assert\Callback]
+        public function validateGuest(ExecutionContextInterface $context)
+        {
+                $guest = $this->guestRepository->find($this->guestId);
+
+                if (!$guest) {
+                        $context->buildViolation('Guest does not exist')
+                                ->atPath('guestId')
                                 ->addViolation();
                 }
         }

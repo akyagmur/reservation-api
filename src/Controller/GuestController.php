@@ -2,18 +2,26 @@
 
 namespace App\Controller;
 
+use App\Http\ApiResponse;
+use App\Repository\GuestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GuestController extends AbstractController
 {
-    #[Route('/guest', name: 'app_guest')]
-    public function index(): JsonResponse
+    private GuestRepository $guestRepository;
+
+    public function __construct(GuestRepository $guestRepository)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/GuestController.php',
-        ]);
+        $this->guestRepository = $guestRepository;
+    }
+
+    #[Route('/guests/list', name: 'app_guests_list', methods: ['GET'])]
+    public function list(): JsonResponse
+    {
+        $guests = $this->guestRepository->findAll();
+
+        return new ApiResponse('Guests list', $guests, [], 200);
     }
 }

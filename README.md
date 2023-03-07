@@ -17,7 +17,7 @@ The app is built with *Symfony 6.2*.
 1. Clone the repository
 
 ```bash
-git clone git@github.com:akyagmur/room-reservation.git
+git clone git@github.com:akyagmur/reservation-api.git
 ```
 
 2. Install dependencies
@@ -59,8 +59,10 @@ $ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root
 
 | Method | Endpoint | Description |
 | ------ | ------ | ------ |
-| GET | /api/v1/listing/search | Search listings |
+| POST | /api/v1/listing/search | Search listings |
 | GET | /api/v1/listing/{reference} | Get a listing by id |
 | POST | /api/v1/reservation/create | Create a reservation |
 | GET | /api/v1/reservation/{reference} | Get a reservation by id |
 | GET | /api/v1/reservations/{guest} | Get all reservations by guest |
+| GET | /api/v1/guests/list | Get all guests |
+| PATCH | /api/v1/reservation/{reference}/cancel | Cancel a reservation |
