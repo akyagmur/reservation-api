@@ -66,3 +66,10 @@ $ docker compose cp caddy:/data/caddy/pki/authorities/local/root.crt %TEMP%/root
 | GET | /api/v1/reservations/{guest} | Get all reservations by guest |
 | GET | /api/v1/guests/list | Get all guests |
 | PATCH | /api/v1/reservation/{reference}/cancel | Cancel a reservation |
+
+
+## TODO
+
+- [ ] Add tests
+- [ ] Add DTOs and Service layers
+- [ ] Add elastic search for search endpoint
